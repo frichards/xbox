@@ -15,8 +15,10 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
   </head>
+ <!-- 
   <div id="fb-root"></div>
     <script>
+
       window.fbAsyncInit = function() {
         FB.init({
           appId      : '732779943446911',
@@ -33,7 +35,6 @@
           }
         });
       };
-
       (function(d){
          var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
          if (d.getElementById(id)) {return;}
@@ -45,10 +46,11 @@
       function testAPI() {
           console.log('Welcome!  Fetching your information.... ');
           FB.api('/me', function(response) {
-            console.log('Good to see you, ' + response.name + '.');
+            console.log('Good to see you, ' + response.name + '.' + response.id);
           });
       }
-    </script>
+      */
+    </script>-->
   <body ng-app="xboxYoApp">
 
       <div ng-include="'views/main.html'" ng-controller="MainCtrl"></div>
@@ -77,8 +79,11 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+
     <script src="bower_components/json3/lib/json3.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-facebook/lib/angular-facebook.js"></script>
+    <script src="node_modules/express/lib/express.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -87,6 +92,7 @@
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/xbox.js"></script>
         <script src="scripts/services/data.js"></script>
+
         <!-- endbuild -->
 </body>
 </html>
