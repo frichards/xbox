@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
-var FB = require('fb');
+// var FB = require('fb');
 var mongoose = require('mongoose');
 var app = express();
 app.use(bodyParser.json());
@@ -15,28 +15,30 @@ app.listen(8470);
 
 mongoose.connect('mongodb://localhost/xbox-users', function(err){
 	if(err) throw err;
+	console.log("connected!");
 });
 
+var User = mongoose.model('User', 
+	new mongoose.Schema({
+    id: {type:Number},
+    name: {type:String},
+    gamertag: {type:String}
+}));
 
-var userSchema = mongoose.Schema({
-    id: Number,
-    name: String,
-    gamertag: String
-});
 
-var User = mongoose.model('User', userSchema);
+
 
 app.get('/', function(req, res){
 	User.find({},function(err, user){
 		res.send(user);
-		console.log(user);
+		console.log(user.id);
 	});
 });
 
 app.post('/', function(req, res){
 	var user = new User(req.body);
 	user.save(function(err, user){
-		res.send(user);
+		res.send({success: true});
 		console.log(user);
 	})
 });
