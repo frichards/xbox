@@ -1,16 +1,35 @@
 <!-- {{friends}} -->
 
-{{user}}
+<div>
+	<button type="button" class="btn btn-primary btn-large" data-ng-show="!logged" data-ng-disabled="!facebookReady" data-ng-click="logout()" >Login with Facebook</button>
 
-{{user.id}}
-{{user.name}}
+	<button type="button" class="btn btn-danger btn-large" data-ng-show="logged" data-ng-disabled="!facebookReady" data-ng-click="logout()">Logout</button>
+</div>
 
 
+<div>
+	Me
+	<ul>
+		<li>FB id: {{user.id}}</li>
+		<li>Name: {{user.name}}</li>
+		<li>Gamertag: {{user.gamertag}}</li>
+		<li>gamerScore: {{user.gamerScore}}</li>
+		<li>Facebook profile<image src={{user.picture.data.url}}></li>
+		<li>xbox live profile<image src={{user.avatar}}></li>
+	</ul>
+</div>
 
-          <button type="button" class="btn btn-primary btn-large" data-ng-show="!logged" data-ng-disabled="!facebookReady" data-ng-click="logout()" >Login with Facebook</button>
           
-          <button type="button" class="btn btn-danger btn-large" data-ng-show="logged" data-ng-disabled="!facebookReady" data-ng-click="logout()">Logout</button>
 
+<div>
+	Friends
+	<ul ng-repeat="friend in friends">
+		<li> name:{{friend.name}} </li>
+		<li> FB id:{{friend.id}}</li>
+		<li> Gamertag: {{friend.gamertag}}</li>
+		<li> Gamerscore: {{friend.gamerScore}}</li>
+		<a href="https://account.xbox.com/en-us/profile?gamerTag={{friend.gamertag}}"> Xbox Live URL </a>
+		<li> <image src={{friend.picture.data.url}}></li>
+	</ul>
+</div>
 
-
-{{friends}}

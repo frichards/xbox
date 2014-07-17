@@ -1,9 +1,13 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
-// var FB = require('fb');
+var FB = require('fb');
 var mongoose = require('mongoose');
+var XBoxLive = require('xbox-live');
 var app = express();
+var api = new XBoxLive();
+var request = require("request");
+
 app.use(bodyParser.json());
 app.use(function(req, res, next){
 	res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,20 +24,29 @@ mongoose.connect('mongodb://localhost/xbox-users', function(err){
 
 var User = mongoose.model('User', 
 	new mongoose.Schema({
-    id: {type:Number},
-    name: {type:String},
-    gamertag: {type:String}
+	    facebook_id: {type:String},
+	    name: {type:String},
+	    gamertag: {type:String}
 }));
 
 
 
 
 app.get('/', function(req, res){
+	console.log('Tyleesfefsfesr');
 	User.find({},function(err, user){
+		console.log('The user is ', user);
 		res.send(user);
-		console.log(user.id);
 	});
 });
+
+app.post('/getuser', function(req, res){
+	request("https://www.kimonolabs.com/api/7w4mgxv0?apikey=kRUXsW4cjDpW5T4g8H4kfncjI7wUc7UT&kimpath2=" + req.body.user, 
+		function(err, response, body) {
+		  res.send(response.body);
+		  console.log("fetching", req.body.user);
+	});
+})
 
 app.post('/', function(req, res){
 	var user = new User(req.body);
