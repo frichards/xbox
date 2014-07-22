@@ -2,6 +2,7 @@
 body {
   padding-top: 20px;
   padding-bottom: 20px;
+  background: #efefef;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -76,4 +77,121 @@ body {
   .jumbotron {
     border-bottom: 0;
   }
+
+}
+
+.logout {
+  position: fixed;
+  top:0;
+  height: 50px;
+  width:100%;
+  background-color:#4DEB17;
+}
+
+.spinner {
+  height:200px;
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.btn {
+  margin-top: 7px;
+  margin-right: 5px;
+  background-color: #2B830D;
+  border: #20620A;
+  float: right;
+  color: CCCCCC;
+}
+
+.btn:hover {
+  background-color: #808080;
+  border: #808080;
+}
+
+.content {
+  padding-top:60px;
+}
+
+.me {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  background: #fff;
+}
+
+
+.person {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.figure img {
+  text-align: center;
+}
+
+.card {
+    padding: 13px 20px;
+    margin: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 8px #aaa;
+}
+
+.me .car li {
+  text-align: center;
+}
+
+.card li {
+  text-align: left;
+}
+
+.friends h1 {
+  padding: 10px 20px;
+}
+
+h3 {
+  text-align: center;
+  width: 100%;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.nofriend {
+  filter: grayscale(0.75);
+}
+
+a {
+  color: #0C830C;
+}
+.card figure {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+}
+
+.card figure img {
+  width: auto;
+  height: 140px;
+}
+
+.card__name {
+  font-size: 41.887px;
+}
+
+.card__gamertag {
+  font-size: 25.888px;
+}
+
+.card__gamerscore {
+  font-size: 16px;
+}
+
+.card__url {
+  font-size: 16px;
 }

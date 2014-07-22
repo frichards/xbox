@@ -16,7 +16,6 @@ angular.module('xboxYoApp')
 				method:'GET',
 				url: 'http://localhost:8470/'
 			}).success(function(data){
-				alert('success')
 				console.log('The good data', data);
 				d.resolve(data);
 			}).error(function (err){
@@ -57,23 +56,6 @@ angular.module('xboxYoApp')
 		});
 		return d.promise;
 	};
-
-	this.xboxData = [
-		{
-			"gamertag": "OliveKelpie",
-			"games": ["Final Fantacy XIII", "Lego Star Wars"],
-			"gamerscore" :1000
-		},
-		{
-			"gamertag": "SatchmoHonky",
-			"games": ["Mass Effect", "Batman: Arkham City", "Fall Out 3"],
-			"gamerscore" :8926
-		},
-		{
-			"gamertag": "AdRock1616",
-			"games": ["Halo", "Batman: Arkham City"],
-			"gamerscore" : 6520
-		}];
 
 
 	this.xboxData = function(){

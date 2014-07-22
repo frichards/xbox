@@ -29,9 +29,6 @@ var User = mongoose.model('User',
 	    gamertag: {type:String}
 }));
 
-
-
-
 app.get('/', function(req, res){
 	console.log('Tyleesfefsfesr');
 	User.find({},function(err, user){

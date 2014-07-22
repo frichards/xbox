@@ -1,35 +1,34 @@
 <!-- {{friends}} -->
 
-<div>
-	<button type="button" class="btn btn-primary btn-large" data-ng-show="!logged" data-ng-disabled="!facebookReady" data-ng-click="logout()" >Login with Facebook</button>
+<nav class="logout">
+<button type="button" class="btn btn-danger btn-large" data-ng-show="logged" data-ng-disabled="!facebookReady" data-ng-click="logout()">Logout</button>
+</nav>
 
-	<button type="button" class="btn btn-danger btn-large" data-ng-show="logged" data-ng-disabled="!facebookReady" data-ng-click="logout()">Logout</button>
+<div class="spinner" ng-show ="spin">
+	<i class="fa fa-spinner fa-spin"></i> Loading
 </div>
 
+<div class="content" ng-show ="content">
+<!-- 	<h1> <i class="fa fa-user"></i> Me</h1>
+ -->	<div class="me">
+		<ul class="card">
+			<figure><image src={{user.picture.data.url}}></figure>
+			<li class="card__name">{{user.name}}</li>
+			<li class="card__gamertag"><i class="fa fa-tag"></i> <strong>Gamertag</strong>: {{user.gamertag}}</li>
+			<li class="card__gamerscore"><i class="fa fa-bar-chart-o"></i> <strong>Gamer Score</strong>: {{user.gamerScore}}</li>
+		</ul>
+	</div>
+	<div class="friends">
+		<h1><i class="fa fa-users"></i> Friends</h1>
+		<div id="friend" class="person" >
+			<ul ng-repeat="friend in friends" class="card" ng-class="{nofriend: notFriends}">
+				<figure><image src={{friend.picture.data.url}}></figure>
 
-<div>
-	Me
-	<ul>
-		<li>FB id: {{user.id}}</li>
-		<li>Name: {{user.name}}</li>
-		<li>Gamertag: {{user.gamertag}}</li>
-		<li>gamerScore: {{user.gamerScore}}</li>
-		<li>Facebook profile<image src={{user.picture.data.url}}></li>
-		<li>xbox live profile<image src={{user.avatar}}></li>
-	</ul>
+				<li class="card__name">{{friend.name}} </li>
+				<li class="card__gamertag"> <i class="fa fa-tag"></i> {{friend.gamertag}}</li>
+				<li class="card__gamerscore"><i class="fa fa-bar-chart-o"></i> {{friend.gamerScore}}</li>
+				<a class="card__url" href="https://account.xbox.com/en-us/profile?gamerTag={{friend.gamertag}}" target="_blank"> Xbox Live Page </a>
+			</ul>
+		</div>
+	</div>
 </div>
-
-          
-
-<div>
-	Friends
-	<ul ng-repeat="friend in friends">
-		<li> name:{{friend.name}} </li>
-		<li> FB id:{{friend.id}}</li>
-		<li> Gamertag: {{friend.gamertag}}</li>
-		<li> Gamerscore: {{friend.gamerScore}}</li>
-		<a href="https://account.xbox.com/en-us/profile?gamerTag={{friend.gamertag}}"> Xbox Live URL </a>
-		<li> <image src={{friend.picture.data.url}}></li>
-	</ul>
-</div>
-

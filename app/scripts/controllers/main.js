@@ -89,7 +89,6 @@ angular.module('xboxYoApp')
                 }
               }
               else if ($scope.user.id === users[i].facebook_id){
-                alert('We are here. Prepare yourself');
                 $scope.user.gamertag=users[i].gamertag;
                 DataService.getGamerInfo($scope.user.gamertag).then(
                   function(data){
@@ -97,12 +96,12 @@ angular.module('xboxYoApp')
                     $scope.xboxInfo=data.results;
                     secondChunk();
                     console.log("hooray some data",$scope.xboxInfo.me[0]);
-
                     $scope.user.gamerScore = $scope.xboxInfo.me[0].gamerScore;
                     $scope.user.avatar = $scope.xboxInfo.me[0].avatar;
+                    $scope.spin = false;
+                    $scope.content = true;
                   }
                 );
-                return $scope.user;
               }
             }
           }
@@ -111,6 +110,7 @@ angular.module('xboxYoApp')
     });
   };
   function secondChunk(){
+    $scope.notFriends = false;
     Facebook.api('me/friends?fields=picture.type(normal),name,id', function(res) {
       $scope.$apply(function(){
         console.log(res);
@@ -129,13 +129,12 @@ angular.module('xboxYoApp')
                     for (var k = 0; k < $scope.xboxInfo.friends.length; k++) {
                       if ($scope.friends[i].gamertag===$scope.xboxInfo.friends[k].friendGamertag){
                         $scope.friends[i].gamerScore=$scope.xboxInfo.friends[k].friendGamerScore;
-                        $scope.friends[i].avatar=$scope.xboxInfo.friends[k].friendAvatar;
                       }
                       else{
-                        $scope.friends[i].gamerScore ="Not friend on xbox Live yet"
-                        $scope.friends[i].avatar= "N/A"
+                        $scope.friends[i].gamerScore ="Not friend on xbox Live yet";
+                        $scope.notFriends = true;
+                        
                       }
-                    console.log($scope.friends[i].gamerScore);
                     }
                   }
                 }
@@ -156,4 +155,7 @@ angular.module('xboxYoApp')
       });
     });
   }
+
+  $scope.spin = true;
+  $scope.content = false;
 });
