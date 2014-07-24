@@ -61,55 +61,67 @@ angular.module('xboxYoApp')
         console.log("got user login info");
         DataService.getUsers().then(
           function(users) {
+            var getTag = function(){
+              var tag = prompt("Please enter your gamertag on Xbox live.");
+              var r = confirm("Is your gamertag "+tag+" ?");
+              $scope.user.gamertag=tag;
+              if (r === true) {
+                var newObj = {};
+                newObj.facebook_id = $scope.user.id;
+                newObj.name = $scope.user.name;
+                newObj.gamertag = $scope.user.gamertag;
+                console.log(newObj.facebook_id);
+                DataService.postUsers(newObj);
+                console.log("created a new user");
+              } else {
+                getTag();
+              }
+            };
+            var checkUser= function(){
+              for (var i = 0; i < users.length; i++) {
+                if ($scope.user.id !== users[i].facebook_id) {
+                  if(users.length === i+1) {
+                    console.log("getting gamertag info");
+                    getTag();
+                    $scope.checkUserAgainstSystem();
+                  }
+                  else {
+                    console.log("An existing user");
+                  }
+                }
+                else if ($scope.user.id === users[i].facebook_id){
+                  $scope.user.gamertag=users[i].gamertag;
+                  DataService.getGamerInfo($scope.user.gamertag).then(
+                    function(data){
+                      console.log(data);
+                      $scope.xboxInfo=data.results;
+                      secondChunk();
+                      console.log("hooray some data",$scope.xboxInfo.me[0]);
+                      $scope.user.gamerScore = $scope.xboxInfo.me[0].gamerScore;
+                      $scope.user.avatar = $scope.xboxInfo.me[0].avatar;
+                      $scope.spin = false;
+                      $scope.content = true;
+                    }
+                  );
+                }
+              }
+            };
             $scope.users=users;
-            for (var i = 0; i < users.length; i++) {
-              if ($scope.user.id !== users[i].facebook_id) {
-                if(users.length === i+1) {
-                  console.log("getting gamertag info");
-                  var getTag = function(){
-                    var tag = prompt("Please enter your gamertag on Xbox live.");
-                    var r = confirm("Is your gamertag "+tag+" ?");
-                    $scope.user.gamertag=tag;
-                    if (r === true) {
-                      var newObj = {};
-                      newObj.facebook_id = $scope.user.id;
-                      newObj.name = $scope.user.name;
-                      newObj.gamertag = $scope.user.gamertag;
-                      console.log(newObj.facebook_id);
-                      DataService.postUsers(newObj);
-                      console.log("created a new user");
-                    }
-                    else {
-                      getTag();
-                    }
-                  }
-                }
-                else {
-                  console.log("An existing user") ;
-                }
-              }
-              else if ($scope.user.id === users[i].facebook_id){
-                $scope.user.gamertag=users[i].gamertag;
-                DataService.getGamerInfo($scope.user.gamertag).then(
-                  function(data){
-                    console.log(data);
-                    $scope.xboxInfo=data.results;
-                    secondChunk();
-                    console.log("hooray some data",$scope.xboxInfo.me[0]);
-                    $scope.user.gamerScore = $scope.xboxInfo.me[0].gamerScore;
-                    $scope.user.avatar = $scope.xboxInfo.me[0].avatar;
-                    $scope.spin = false;
-                    $scope.content = true;
-                  }
-                );
-              }
+            if(users.length === 0){
+              getTag();
+              $scope.checkUserAgainstSystem();
             }
+            else {
+              checkUser();
+              $scope.$apply();
+            };
           }
         )
       });
     });
   };
-  function secondChunk(){
+
+  var secondChunk=  function (){
     $scope.notFriends = false;
     Facebook.api('me/friends?fields=picture.type(normal),name,id', function(res) {
       $scope.$apply(function(){
@@ -151,7 +163,8 @@ angular.module('xboxYoApp')
       $scope.$apply(function() {
         $scope.user   = {};
         $scope.friends ={};
-        $scope.logged = false;  
+        $scope.logged = false; 
+        location.reload(); 
       });
     });
   }
