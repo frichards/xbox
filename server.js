@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
-var FB = require('fb');
 var mongoose = require('mongoose');
 var XBoxLive = require('xbox-live');
 var app = express();
