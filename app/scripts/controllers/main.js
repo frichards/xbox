@@ -12,7 +12,7 @@ angular.module('xboxYoApp').config(['FacebookProvider', function(FacebookProvide
      // Here you could set your appId through the setAppId method and then initialize
      // or use the shortcut in the initialize method directly.
      FacebookProvider.init('732779943446911');
-     console.log("facebook auth called - 1");
+     console.log("facebook auth called");
 }]);
 
 angular.module('xboxYoApp')
@@ -77,6 +77,49 @@ angular.module('xboxYoApp')
                 getTag();
               }
             };
+
+            var secondChunk=  function (){
+              $scope.notFriends = false;
+              Facebook.api('me/friends?fields=picture.type(normal),name,id', function(res) {
+                $scope.$apply(function(){
+                  console.log(res);
+                  DataService.getUsers().then(
+                    function(){ 
+                      if (res.data.length<1){
+                        $scope.friends = "You are the first one out of your friends to use this app."
+                      }
+                      else{
+                        $scope.friends = res.data;
+                        console.log($scope.users);
+                        for (var i = 0; i < $scope.friends.length; i++) {
+                          for (var j = 0; j < $scope.users.length; j++) {
+                            if ($scope.friends[i].id === $scope.users[j].facebook_id){
+                              $scope.friends[i].gamertag= $scope.users[j].gamertag;
+                              if ($scope.xboxinfo.friends.length === 0) {
+                                $scope.friends[i].gamerScore ="Not friend on xbox Live yet";
+                                $scope.notFriends = true;
+                              }
+                              else { 
+                                for (var k = 0; k < $scope.xboxInfo.friends.length; k++) {
+                                  if ($scope.friends[i].gamertag===$scope.xboxInfo.friends[k].friendGamertag){
+                                    $scope.friends[i].gamerScore=$scope.xboxInfo.friends[k].friendGamerScore;
+                                  }
+                                  else{
+                                    $scope.friends[i].gamerScore ="Not friend on xbox Live yet";
+                                    $scope.notFriends = true;
+                                    
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      };
+                    }
+                  )
+                });
+              });    
+             }
             var checkUser= function(){
               for (var i = 0; i < users.length; i++) {
                 if ($scope.user.id !== users[i].facebook_id) {
@@ -95,6 +138,7 @@ angular.module('xboxYoApp')
                     function(data){
                       console.log(data);
                       $scope.xboxInfo=data.results;
+                      console.log("Here is xboxinfo", $scope.xboxInfo);
                       secondChunk();
                       console.log("hooray some data",$scope.xboxInfo.me[0]);
                       $scope.user.gamerScore = $scope.xboxInfo.me[0].gamerScore;
@@ -121,42 +165,7 @@ angular.module('xboxYoApp')
     });
   };
 
-  var secondChunk=  function (){
-    $scope.notFriends = false;
-    Facebook.api('me/friends?fields=picture.type(normal),name,id', function(res) {
-      $scope.$apply(function(){
-        console.log(res);
-        DataService.getUsers().then(
-          function(){ 
-            if (res.data.length<1){
-              $scope.friends = "You are the first one out of your friends to use this app."
-            }
-            else{
-              $scope.friends = res.data;
-              console.log($scope.users);
-              for (var i = 0; i < $scope.friends.length; i++) {
-                for (var j = 0; j < $scope.users.length; j++) {
-                  if ($scope.friends[i].id === $scope.users[j].facebook_id){
-                    $scope.friends[i].gamertag= $scope.users[j].gamertag;
-                    for (var k = 0; k < $scope.xboxInfo.friends.length; k++) {
-                      if ($scope.friends[i].gamertag===$scope.xboxInfo.friends[k].friendGamertag){
-                        $scope.friends[i].gamerScore=$scope.xboxInfo.friends[k].friendGamerScore;
-                      }
-                      else{
-                        $scope.friends[i].gamerScore ="Not friend on xbox Live yet";
-                        $scope.notFriends = true;
-                        
-                      }
-                    }
-                  }
-                }
-              }
-            };
-          }
-        )
-      });
-    });    
-  }
+  
 
 	$scope.logout = function() {
     Facebook.logout(function() {
