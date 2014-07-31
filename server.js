@@ -37,10 +37,10 @@ app.get('/', function(req, res){
 });
 
 app.post('/getuser', function(req, res){
-	request("https://www.kimonolabs.com/api/7w4mgxv0?apikey=kRUXsW4cjDpW5T4g8H4kfncjI7wUc7UT&kimpath2=" + req.body.user, 
+	request("https://www.kimonolabs.com/api/7w4mgxv0?apikey=kRUXsW4cjDpW5T4g8H4kfncjI7wUc7UT",
+		// "https://www.kimonolabs.com/api/7w4mgxv0?apikey=kRUXsW4cjDpW5T4g8H4kfncjI7wUc7UT&kimpath2=" + req.body.user, 
 		function(err, response, body) {
 		  res.send(response.body);
-		  console.log("fetching", req.body.user);
 	});
 })
 

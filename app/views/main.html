@@ -21,7 +21,7 @@
 	<div class="friends">
 		<h1><i class="fa fa-users"></i> Friends</h1>
 		<div id="friend" class="person" >
-			<ul ng-repeat="friend in friends" class="card" ng-class="{nofriend: notFriends}">
+			<ul ng-repeat="friend in friends" class="card" ng-class="friend.status">
 				<figure><image src={{friend.picture.data.url}}></figure>
 
 				<li class="card__name">{{friend.name}} </li>
